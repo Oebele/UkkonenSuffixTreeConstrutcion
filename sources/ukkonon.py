@@ -99,6 +99,34 @@ class STree:
     def __str__(self):
         return '\nroot' + self.root._to_str(self)
 
+    def is_substring(self, sub):
+        s = self.root
+        i = 0
+        k, p, s = s.get_t_transaction(self, sub[i])
+        while i < len(sub) and k and s:
+            if sub[i: i + p - k + 1] != self.t[k: p + 1]:
+                return False
+            if i + p - k + 1 >= len(sub):
+                return True
+            i = i + p - k + 1
+            k, p, s = s.get_t_transaction(self, sub[i])
+        return sub[i:] == self.t[k: k + len(sub) - i]
+
+    def is_suffix(self, suffix):
+        stop_symbol = self.t[-2]  # needs $ padding
+        s = self.root
+        i = 0
+        k, p, s = s.get_t_transaction(self, suffix[i])
+        while i < len(suffix) and k and s:
+            if suffix[i: i + p - k + 1] != self.t[k: p + 1]:
+                return False
+            if i + p - k + 1 >= len(suffix):
+                return not s.no_t_transaction(self, stop_symbol)
+            i = i + p - k + 1
+            k, p, s = s.get_t_transaction(self, suffix[i])
+        return (suffix[i:] == self.t[k: k + len(suffix) - i] and
+                self.t[k + len(suffix) - i] == stop_symbol)
+
     @dataclass
     class Node:
         f: Any = None
@@ -114,6 +142,14 @@ class STree:
                 if k0 > 0 and stree.t[k0] == stree.t[k]:
                     return k0, p0, s0
             raise Exception(f'No tk transaction in {self}')
+
+        def get_t_transaction(self, stree, t):
+            for k, (p, s) in self.g.items():
+                if k < 0 and stree.alphabet[-k - 1] == t:
+                    return k, p, s
+                if k > 0 and stree.t[k] == t:
+                    return k, p, s
+            return 0, 0, None
 
         def no_t_transaction(self, stree, t):
             for k0, _ in self.g.items():

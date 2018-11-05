@@ -7,6 +7,115 @@ Node = STree.Node
 # for coverage :
 # python3.7 -m pytest --cov=sources/ --cov-report=html  tests/test_ukkonon.py
 
+# --------------------------------------------------------------- #
+#                   Tree Suffix functions Tests                   #
+# --------------------------------------------------------------- #
+
+
+def test_a_is_substring_from_abaaba():
+    T = 'abaaba$'
+    abc = '$baa'
+    substring = 'a'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert st.is_substring(substring)
+
+
+def test_c_not_is_substring_from_abaaba():
+    T = 'abaaba$'
+    abc = '$baa'
+    substring = 'c'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert not st.is_substring(substring)
+
+
+def test_baa_is_substring_from_abaaba():
+    T = 'abaaba$'
+    abc = '$baa'
+    substring = 'aba'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert st.is_substring(substring)
+
+
+def test_aba_is_substring_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    substring = 'aba'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert st.is_substring(substring)
+
+
+def test_abaaba_is_substring_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    substring = 'abaaba'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert st.is_substring(substring)
+
+
+def test_siss_is_substring_from_mississippi():
+    T = 'mississippi$'
+    abc = '$imps'
+    substring = 'siss'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert st.is_substring(substring)
+
+
+def test_ss_is_not_substring_from_mississippi():
+    T = 'mississippi$'
+    abc = '$imps'
+    substring = 'ss'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert not st.is_substring(substring)
+
+
+def test_aba_is_suffix_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    suffix = 'aba'
+    st = STree(T, abc)
+    st.suffix_tree()
+    print(st)
+    assert st.is_suffix(suffix)
+
+
+def test_abb_is_not_suffix_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    suffix = 'abb'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert not st.is_suffix(suffix)
+
+
+def test_baab_is_not_suffix_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    suffix = 'baab'
+    st = STree(T, abc)
+    st.suffix_tree()
+    assert not st.is_suffix(suffix)
+
+
+def test_baaba_is_suffix_from_abaaba():
+    T = 'abaaba$'
+    abc = '$aba'
+    suffix = 'baaba'
+    st = STree(T, abc)
+    st.suffix_tree()
+    print(st)
+    assert st.is_suffix(suffix)
+
+# --------------------------------------------------------------- #
+#                      Tree Consrtuction Tests                    #
+# --------------------------------------------------------------- #
+
 
 def test_ukkonen_empty_string():
     s = ''
@@ -180,8 +289,11 @@ def create_expected_for_string_c():
     expected = bottom
     return alphabet, root, expected
 
+# --------------------------------------------------------------- #
+#                    Node  equal functio Tests                    #
+# --------------------------------------------------------------- #
 
-# --------tests for equal function------------------------------------
+
 def test_equal_function_empty_node():
     bottom = Node()
     root = Node()
