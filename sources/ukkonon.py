@@ -104,7 +104,8 @@ class STree:
         i = 0
         k, p, s = s.get_t_transaction(self, sub[i])
         while i < len(sub) and k and s:
-            if sub[i: i + p - k + 1] not in self.t[k: p + 1]:
+            ssub = sub[i: i + p - k + 1]
+            if ssub != self.t[k: min(p + 1, k + len(ssub))]:
                 return False
             if i + p - k + 1 >= len(sub):
                 return True
