@@ -66,13 +66,13 @@ def test_siss_is_substring_from_mississippi():
     assert st.is_substring(substring)
 
 
-def test_ss_is_not_substring_from_mississippi():
+def test_ss_is_substring_from_mississippi():
     T = 'mississippi$'
     abc = '$imps'
     substring = 'ss'
     st = STree(T, abc)
     st.suffix_tree()
-    assert not st.is_substring(substring)
+    assert st.is_substring(substring)
 
 
 def test_aba_is_suffix_from_abaaba():
