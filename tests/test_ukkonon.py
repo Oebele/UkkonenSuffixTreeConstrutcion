@@ -81,7 +81,6 @@ def test_aba_is_suffix_from_abaaba():
     suffix = 'aba'
     st = STree(T, abc)
     st.suffix_tree()
-    print(st)
     assert st.is_suffix(suffix)
 
 
@@ -109,7 +108,6 @@ def test_baaba_is_suffix_from_abaaba():
     suffix = 'baaba'
     st = STree(T, abc)
     st.suffix_tree()
-    print(st)
     assert st.is_suffix(suffix)
 
 # --------------------------------------------------------------- #
@@ -255,7 +253,8 @@ def test_string_mississippi():
 
     s_si = Node()
     s_i = Node()
-
+    root_s.g0(4, 5, s_si)
+    root_s.g0(5, 5, s_i)
     i_ssi.f = s_si
     s_si.f = s_i
     s_i.f = root_i
@@ -272,8 +271,7 @@ def test_string_mississippi():
     st = STree(s, alphabet)
     st.suffix_tree()
     result = st.bottom
-    print(st)
-    assert expected == expected
+    assert result == expected
 
 
 def create_expected_for_string_ca():
